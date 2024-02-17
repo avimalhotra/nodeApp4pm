@@ -5,14 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/network"
+    "start": "node src/app"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "colors": "^1.4.0",
-    "network-address": "^1.1.2",
-    "network-list": "^1.1.5"
-  }
+  "license": "ISC"
 }
