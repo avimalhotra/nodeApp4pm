@@ -1,73 +1,59 @@
-const os=require("os");
-const fs=require("fs");
+const { log } = require('console');
+//const fs=require('fs');
+const Event=require("events").EventEmitter;
+const emitter=new Event();
+module.exports=emitter;
+
+/* build in events */
+/* fs.ReadStream("src/data.txt").on("open",()=>{
+    console.log("file open");
+});
+*/
 
 
-//const read=fs.readFileSync('src/data.txt');                   // avoid
-//console.log( read );                    // buffer
-//console.log( read.toString() );                    // string
-
-
-/* const read=fs.readFile("src/data.txt",{encoding:'utf-8'},(err,res)=>{
-    if(err){
-        console.warn(err);
-    }
-    else{
-        console.log(res); 
-    }
-});  */
-
-/* const read=fs.readFile("src/data.json",{encoding:'utf-8'},(err,res)=>{
-    if(err){
-        console.warn(err);
-    }
-    else{
-        console.log( JSON.parse(res) ); 
-    }
-});  */
+/* error event */
+//emitter.emit("error",new Error("Error Found"));
 
 
 
 
-/* const read=fs.stat("src/app.txt",(err,res)=>{
-    if(err){
-        console.warn(err);
-    }
-    else{
-        console.log(res.size); 
-        console.log(res.isDirectory()); 
-        console.log(res.isFile()); 
+/* multiple emit */
+/* emitter.on("done",(res="",x)=>{
+    console.log(`event done by ${res}`);  
+    x.executed=false;
+});
+emitter.on("done",(res="",x)=>{
+    if(x.executed==true){
+        console.log(`again done by ${res}`);  
     }
 }); */
 
-/* fs.writeFile('src/data.txt',`file updated at ${new Date().toLocaleString()}`,'utf-8',(err)=>{
-    console.log(err);
+
+
+/* single emit */
+/* emitter.once("callOnce",(res)=>{
+    console.log("called");
 }); */
 
-/* fs.appendFile('src/data.txt',`file updated at ${new Date().toLocaleString()} \n`,'utf-8',(err)=>{
-    console.log(err);
-}); */
+/* remove */
+/* function removeEvent(){
+    console.log("removed events");
+    emitter.removeListener("done",removeEvent);
+}
+emitter.on("done",removeEvent);
 
-/* fs.unlink("src/data.txt",(err,res)=>{
-    if(err){ console.log(err);}
-    else{ console.log(res);}
-}); */
-
-
-console.log("done");
-
-//console.log( os.cpus().length );
-//console.log( os.cpus()[0] );
-//os.cpus().forEach(i=>{console.log(i);})
-
-//console.log( os.freemem() );
-//console.log( os.totalmem() );
-
-//console.log( os.networkInterfaces() );
+emitter.emit("done","avi");
+emitter.emit("done","avi"); */
 
 
-//console.log(os.platform());
-//console.log(os.type());
-//console.log(os.uptime()/60/60);
-//console.log(os.userInfo());
-//console.log( os.machine() );
 
+//emitter.emit("done","avi",{executed:false});
+//emitter.emit("done","lorem");
+//emitter.emit("callOnce","avi");
+
+
+const login=require('./login');
+const account=require('./account');
+
+emitter.emit("login","avi");
+emitter.emit("account");
