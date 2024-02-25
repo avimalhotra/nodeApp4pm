@@ -1,34 +1,41 @@
-const http=require("http");
+const express=require("express");
+const app=express();
 require("dotenv").config();
-const fs=require("fs");
-const path=require("path");
 
-const server=http.createServer((req,res)=>{
-    //res.write(req.url);
-    //res.write(req.method);
-    //res.write(req.headers.host);
-    //res.write("Hello Node");
-    
-    //res.statusCode=200;
-    //res.setHeader("Content-Type","text/html; charset=utf-8");
-    //res.writeHead(200,{"Content-Type":"text/html; charset=utf-8"});
-    //res.write("<h1>Hello Node</h1>");
-    //res.end();                                          // compulsory
+//app.use(express.static("src/public"));                  // define path of static resources
 
-    fs.readFile(path.resolve("src/home.html"),(err,data)=>{
-        if(err){
-            res.writeHead(404,{'Content-Type':'text/html'});
-            res.write(err);
-            res.end();
-        }
-        else{
-            res.writeHead(200,{'Content-Type':'text/html'});
-            res.write(data);
-            res.end(); 
-        }
-    });
-})
+/* app.use((req,res,next)=>{
+    console.log(req.url, req.method);
+    next();
+});
+app.use((req,res)=>{
+    res.status=200;
+    res.setHeader("Content-Type","text/html");
+    res.end("<h1>Express JS</h1>");
+}); */
 
-server.listen(process.env.PORT,()=>{
-    console.log(`Server running at http://127.0.0.1:${process.env.PORT}`);
+app.get("/",(req,res)=>{
+    res.setHeader('Content-Type','text/html');
+    res.status(200).send(`<h1>Home Page</h1>`)
+});
+app.post("/login",(req,res)=>{
+    res.status(200).send(`Post data`);
+});
+
+app.get("/app",(req,res)=>{
+    res.setHeader('Content-Type','text/html');
+    res.status(200).send(`<h1>App Page</h1>`)
+});
+
+
+
+
+/* wild card handler */
+app.get("/**",(req,res)=>{
+    res.setHeader('Content-Type','text/html');
+    res.status(404).send(`<h1>404, Page Not Found</h1>`)
+});
+
+app.listen(process.env.PORT,()=>{
+    console.log(`App server running at http://127.0.0.1:${process.env.PORT}`);
 });
