@@ -4,10 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Node JS</title>
-    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <link rel="stylesheet" href="css/bootstrap.min.css"> 
+
 </head>
 <body>
-    <h1>Hello Express 🇮🇳</h1>
-    <p>Paragraph</p>
+    <div class="container">
+        <h1>Hello Express 🇮🇳</h1>
+        <p>Paragraph</p>
+        <h2>HTTP Get</h2>
+        <form action="/search" method="get">
+            <div class="mb-3">
+              <label for="searchquery" class="form-label">Search</label>
+              <input type="search" name="query" required class="form-control" id="searchquery">
+            </div>
+        </form>
+        <hr>
+        <h2>HTTP Post</h2>
+        <form action="/login" method="post">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" name="email" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" name="pass" required class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" name="remember" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+
+
+
+
+       <!--  <form action="/search">
+            <label>Search: <input type="search" required name="name"></label>
+            <label>SSD: <select required name="ssd">
+                <option selected disabled value="">--Choose Storage--</option>
+                <option>128</option>
+                <option>256</option>
+                <option>512</option>
+            </select> </label>
+            <label>Color: <select required name="color">
+                <option selected disabled value="">--Choose Color--</option>
+                <option>Black</option>
+                <option>Blue</option>
+                <option>Pink</option>
+                <option>Yellow</option>
+            </select> </label>
+            <button>Search</button>
+        </form> -->
+    </div>
+<script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
