@@ -37,28 +37,37 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
+          <h2>Fetch Data</h2>
+          <form action="/" name="data">
+            <label>Data: <input type="search" name="query" class="form-control" required></label>  <button class="btn btn-primary">Search</button>
+          </form>
+          <ol class="list-group my-3 list-group-numbered"></ol>
 
-
-
-
-       <!--  <form action="/search">
-            <label>Search: <input type="search" required name="name"></label>
-            <label>SSD: <select required name="ssd">
-                <option selected disabled value="">--Choose Storage--</option>
-                <option>128</option>
-                <option>256</option>
-                <option>512</option>
-            </select> </label>
-            <label>Color: <select required name="color">
-                <option selected disabled value="">--Choose Color--</option>
-                <option>Black</option>
-                <option>Blue</option>
-                <option>Pink</option>
-                <option>Yellow</option>
-            </select> </label>
-            <button>Search</button>
-        </form> -->
     </div>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script>
+
+  fetch("/api").then(i=>i.json()).then(i=>{
+    console.log(i);
+    i.forEach(j=>{
+      document.querySelector("ol").innerHTML+=`<li class="list-group-item">${j}</li>`;
+    })
+  }).catch(e=>console.warn(e));
+
+
+
+  document.data.addEventListener("submit",function(e){
+    e.preventDefault();
+
+    const q=this.query.value;
+
+    fetch("/postapi",{method:"POST",body:JSON.stringify({"query":q})}).then(i=>i.json()).then(i=>{
+      console.log(i);
+    });
+    
+
+  });
+
+</script>
 </body>
 </html>
