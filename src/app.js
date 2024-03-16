@@ -1,10 +1,23 @@
 const express=require("express");
 const app=express();
+const path=require("path");
 require("dotenv").config();
 const bp=require("body-parser");
 const cookieparser=require('cookie-parser');
 const session=require("express-session");
 const parseurl=require("parseurl");
+const multer=require("multer");
+//const upload=multer({dest:"src/public/uploads/"});
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'src/public/uploads/')
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname)) 
+    }
+});
+const upload=multer({storage:storage});
+
 
 
 app.use(bp.urlencoded({ extended: false })); 
@@ -95,6 +108,12 @@ app.post("/login",(req,res)=>{
 app.get("/app",(req,res)=>{
     res.setHeader('Content-Type','text/html');
     res.status(200).send(`<h1>App Page</h1>`);
+});
+app.post("/upload",upload.single("picture"),(req,res)=>{
+    //console.log(req.file);
+    //console.log(req.body);
+    
+    res.status(200).send("File Uploaded");
 });
 
 
