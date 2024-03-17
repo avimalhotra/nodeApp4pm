@@ -6,6 +6,14 @@ const bp=require("body-parser");
 const cookieparser=require('cookie-parser');
 const session=require("express-session");
 const parseurl=require("parseurl");
+
+const ejs=require("ejs");
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'public/views'));
+
+//const LRU=require("lru-cache");
+//ejs.cache = LRU(100);
+
 const multer=require("multer");
 //const upload=multer({dest:"src/public/uploads/"});
 const storage = multer.diskStorage({
@@ -13,6 +21,7 @@ const storage = multer.diskStorage({
       cb(null, 'src/public/uploads/')
     },
     filename: function (req, file, cb) {
+        //cb(null, (file.originalname)) ;
       cb(null, Date.now() + path.extname(file.originalname)) 
     }
 });
@@ -73,9 +82,15 @@ app.get("/",(req,res)=>{
    // else{ console.log("No name defined")}
     
     res.setHeader('Content-Type','text/html');
-    res.status(200).send(`<h1> Express session</h1>`);
+    //res.status(200).send(`<h1> Express session</h1>`);
+    res.render('index',{h1:"EJS Website",title:"Hello World",user:{name:"Avinash",id:200},data:["jan","feb","mar","apr"]});
 });
-
+app.get("/about",(req,res)=>{
+    res.render('about',{h1:"About US",title:"About Us"});
+});
+app.get("/contact",(req,res)=>{
+    res.render('contact',{h1:"Contact US"});
+});
 
 /* REST API */
 app.get("/api",(req,res)=>{
@@ -110,7 +125,7 @@ app.get("/app",(req,res)=>{
     res.status(200).send(`<h1>App Page</h1>`);
 });
 app.post("/upload",upload.single("picture"),(req,res)=>{
-    //console.log(req.file);
+    console.log(req.file);
     //console.log(req.body);
     
     res.status(200).send("File Uploaded");
