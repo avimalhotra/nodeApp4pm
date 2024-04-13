@@ -5,6 +5,8 @@ const express=require("express")
 const app=express();
 const nunjucks=require("nunjucks");
 
+const mdb=require('./mdb');
+
 //const year=2024;
 const car={name:"swift",power:90};
 const arr=[2,3,4,8];
