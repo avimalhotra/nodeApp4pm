@@ -1,35 +1,13 @@
-    /*mdb.js*/
+const mongoose = require('mongoose');
 
-const { MongoClient } = require('mongodb');
+mongoose.connect('mongodb://127.0.0.1:27017/node').then(() => console.log('Connected to database!'));
 
-    // Connection URL
-  const url = 'mongodb://localhost:27017';
-  const client = new MongoClient(url);
-    
-    // Database Name
-  const dbName = 'node';
-    
-  async function main() {
-      // Use connect method to connect to the server
-      await client.connect();
-      console.log('Connected successfully to MongoDB server');
-  
-      const db = client.db(dbName);
-      const collection = db.collection('suzuki');
-      
-    
-      // the following code examples can be pasted here...
+const db=mongoose.connection;
 
-      //const insertResult = await collection.insertMany([{ name:"swift", type:"hatchback" },{ name:"grand vitara", type:"suv" }]);
-      //console.log('Inserted documents =>', insertResult); 
+db.on('error', function(err){ throw err }); 
 
-        
-    //const findResult = await collection.find({type:"hatchback"}).toArray();
-    //console.log('Found documents =>', findResult);
+db.once("open",function(){
+    console.log("Mongoose connected");
+});
 
-
-    
-      return 'done.';
-  }
-    
-  main().then(console.log).catch(console.error).finally(() => client.close());   
+module.exports=mongoose;

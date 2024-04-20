@@ -11,23 +11,11 @@
         {% include "header.html" %}
         {% include "nav.html" %} 
         <main>
-            <p>The Car name is {{car.name}} and power is {{car.power}}.</p>
-            <p> return value is {{sayHi()}} </p>
-            <p>{{ data.join(" - ") }}</p>
-            {% if id %}
+           <h2>Main </h2>
             <p>id is {{id}}</p>
-            {% endif %}
-            <ol>
-                {% for i in data %}   
-                    <li>{{ i }}</li>
-                {% endfor %}  
-            </ol>
-            <ul>
-                {% for i,j in car %}   
-                    <li>{{ i }} -> {{j}}</li>
-                {% endfor %}  
-            </ul>
-
+            <form action="/cars">
+                <label>Search: <input type="search" required name="car" minlength="3"></label> <button>Search</button>
+            </form>
         </main>
         {% include "footer.html" %}
     </div>

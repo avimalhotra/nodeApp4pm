@@ -6,10 +6,12 @@ const app=express();
 const nunjucks=require("nunjucks");
 
 const mdb=require('./mdb');
+const cars=require('./models/cars');
+const pin=require('./models/pin');
 
 //const year=2024;
-const car={name:"swift",power:90};
-const arr=[2,3,4,8];
+//const car={name:"swift",power:90};
+//const arr=[2,3,4,8];
 
 
 // configure
@@ -22,14 +24,44 @@ nunjucks.configure(path.resolve(__dirname,'public/views'),{
 
 app.use(express.static('src/public'));
 
+
 app.get("/",(req,res)=>{
-    res.status(200).render("index.html",{ 
-        title:"express app", 
-        car:car, 
-        sayHi(){ return 2+3 }, 
-        data:arr,
-        id:35,
+    res.status(200).render("index.html",{ title:"express app", id:35,});
+});
+
+app.get("/cars",(req,res)=>{
+    const x=req.query;
+
+    cars.find({name:x.car}).then(i=>{
+        
+        if(i.length>0){
+            res.status(200).send(i);
+        }
+        else{
+            res.status(200).send("No Car Found");
+        }
+        
+    }).catch(e=>{
+        res.status(200).send("Error");
     });
+
+});
+
+app.get("/api/",(req,res)=>{ res.status(200).send("API") })
+
+app.get("/api/:pin",(req,res)=>{ 
+
+    const x=req.params.pin;
+
+    pin.find({pincode:x}).then(i=>{ 
+        if(i.length==0){ 
+            res.status(200).send([{error:"No City FOund"}]);
+        }
+        else{
+            res.status(200).send(i);
+        }
+     })
+
 });
 
 app.get("/about",(req,res)=>{res.status(200).render("about.html",{ title:"About Us"})});
