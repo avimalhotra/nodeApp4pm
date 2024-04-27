@@ -1,8 +1,14 @@
 require("dotenv").config();
 const port=process.env.port || 3000;
 const path=require("path");
+
 const express=require("express")
 const app=express();
+
+const compression = require('compression');
+app.use(compression());
+
+
 const nunjucks=require("nunjucks");
 
 const mdb=require('./mdb');
@@ -61,7 +67,6 @@ app.get("/api/:pin",(req,res)=>{
             res.status(200).send(i);
         }
      })
-
 });
 
 app.get("/about",(req,res)=>{res.status(200).render("about.html",{ title:"About Us"})});
