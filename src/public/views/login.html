@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        {% include "header.html" %}
+        {% include "nav.html" %} 
+        <main>
+           <h2>Login </h2>
+           
+
+            <form action="/login" method="post">
+                <label>Email: <input type="text" name="name" required></label>
+                <label>Password: <input type="password" name="password" required></label>
+                <button class="btn">Login</button>
+                <span>{{msg}}</span>
+                <span>{{err}}</span>
+                <span>{{error}}</span>
+                <span>{{errorMessage}}</span>
+                <span>{{message}}</span>
+            </form>
+           
+        </main>
+        {% include "footer.html" %}
+    </div>
+<script src="js/jquery.min.js"></script>    
+</body>
+</html>

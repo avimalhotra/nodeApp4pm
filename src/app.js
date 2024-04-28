@@ -14,11 +14,61 @@ const nunjucks=require("nunjucks");
 const mdb=require('./mdb');
 const cars=require('./models/cars');
 const pin=require('./models/pin');
+const user=require('./models/user');
 
-//const year=2024;
-//const car={name:"swift",power:90};
-//const arr=[2,3,4,8];
+const bodyParser=require('body-parser'); 
+app.use(bodyParser.urlencoded({ extended: false })); 
+app.use(bodyParser.json());
 
+const session=require('express-session');
+app.set('trust proxy', 1);
+app.use(session({
+    secret:"session",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{secure:false}
+}));
+
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function (user, done) {
+    done(null, user);
+  });
+passport.deserializeUser(function (user, next) {
+    next(null, user);
+});
+
+passport.use( new LocalStrategy({ usernameField: 'name', passwordField:'password' },(username, password, done) => {
+      
+    user.find({ name: username }).then(( user, err) => { 
+
+        user=user[0];
+
+      if (err) { return done(err); }
+      if (!user) { return done(null, null, { message: 'No user found!' }); }
+      if (user.password !== password) {return done(null, null, { message: 'Username or password is incorrect!' }) }
+
+      return done(null, user, null);
+
+    });
+  }
+));
+
+function isAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      next();
+    } else {
+      res.status(403).render('login.html',{msg:"Forbidden",title:"Login Again"});
+    }
+}
+
+
+
+app.use(express.static('src/public'));
 
 // configure
 nunjucks.configure(path.resolve(__dirname,'public/views'),{
@@ -28,12 +78,42 @@ nunjucks.configure(path.resolve(__dirname,'public/views'),{
     watch:true
 });
 
-app.use(express.static('src/public'));
 
 
 app.get("/",(req,res)=>{
     res.status(200).render("index.html",{ title:"express app", id:35,});
 });
+
+
+app.get("/login",(req,res)=>{
+    res.status(200).render("login.html",{ title:"Login Page"});
+});
+
+app.get('/admin', isAuthenticated ,(req, res) => { res.render('admin.html',{title:"admin"}) });
+ 
+app.post("/login",(req,res)=>{
+    
+    passport.authenticate('local',  (err, user, info) =>{
+        
+        if (err) {
+          res.render('login.html', { error: err });
+        } 
+        else if (!user) {
+          res.render('login.html', { errorMessage: info.message });
+        } 
+        else {
+          //setting users in session
+          req.logIn(user, function (err) {
+            if (err) {
+              res.render('login.html', { error: err });
+            } else {
+              res.render('admin.html',{ name:user.name});
+             }
+          })
+        }
+      })(req, res);
+});
+
 
 app.get("/cars",(req,res)=>{
     const x=req.query;

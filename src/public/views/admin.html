@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        {% include "header.html" %}
+        {% include "nav.html" %} 
+        <main>
+           <h2>Hello {{name}} </h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum corrupti consequatur dolor, commodi accusantium culpa facilis odit eius natus? Perspiciatis mollitia, eius esse voluptatum fugit repudiandae sapiente voluptatem laborum aut.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum corrupti consequatur dolor, commodi accusantium culpa facilis odit eius natus? Perspiciatis mollitia, eius esse voluptatum fugit repudiandae sapiente voluptatem laborum aut.</p>
+            <a href="/logout">logout</a>
+        </main>
+        {% include "footer.html" %}
+    </div>
+<script src="js/jquery.min.js"></script>    
+</body>
+</html>
