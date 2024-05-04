@@ -8,13 +8,15 @@ const app=express();
 const compression = require('compression');
 app.use(compression());
 
+const userRoutes=require("./routes/user");
+app.use('/user',userRoutes);
 
 const nunjucks=require("nunjucks");
 
-const mdb=require('./mdb');
-const cars=require('./models/cars');
-const pin=require('./models/pin');
-const user=require('./models/user');
+//const mdb=require('./mdb');
+//const cars=require('./models/cars');
+//const pin=require('./models/pin');
+//const user=require('./models/user');
 
 const bodyParser=require('body-parser'); 
 app.use(bodyParser.urlencoded({ extended: false })); 
